@@ -14,6 +14,7 @@ class SignUp(QtWidgets.QDialog, sign_up.Ui_Dialog):
         self.setupUi(self)
         self.setWindowTitle("Sign Up")
         # close the window
+        self.populateHealthcareProviders()
         self.cancelButton.clicked.connect(self.cancel)
         self.createAccountButton.clicked.connect(self.completeSignUp)
 
@@ -32,6 +33,17 @@ class SignUp(QtWidgets.QDialog, sign_up.Ui_Dialog):
         for button in self.group.buttons():
             if button is not radioButton:
                 button.setChecked(False)
+        if self.client.isChecked():
+            self.groupBox_2.setEnabled(True)
+        else:
+            self.groupBox_2.setEnabled(False)
+
+    def populateHealthcareProviders(self): 
+        self.healthcareDropdown.clear()
+        database = patient.Patient()
+        healthcares = database.getAllHealthcareProviders()
+        for healthcare in healthcares:
+            self.healthcareDropdown.addItem(healthcare[0])
 
     def cancel(self):
         sign_up_view = first_screen_logic.FirstScreen() # main screen
@@ -45,11 +57,8 @@ class SignUp(QtWidgets.QDialog, sign_up.Ui_Dialog):
         passw = self.password.text()
         age = self.age.text()
         weight = self.weight.text()
-        height = self.height.text()
-
-
+        height = self.height.text()       
         isHealthcare =  self.healthcare.isChecked() # bool for healthcare.
-
         user_fields = [email, username, passw, fname, lname, isHealthcare]
 
         if isHealthcare == 0:
@@ -58,9 +67,11 @@ class SignUp(QtWidgets.QDialog, sign_up.Ui_Dialog):
             print(user_fields)
             result1 = database.add(user_fields)
             database.close()
-
             database = patient.Patient()
-            client_fields = [weight, height, age, database.getId(username)[0]]
+            healthcare_id = database.getId(self.healthcareDropdown.currentText())
+            database.close()
+            database = patient.Patient()
+            client_fields = [age, weight, height, database.getId(username)[0], healthcare_id[0] ]
             database.close()
             database = patient.Patient()
             result2 = database.add(client_fields)

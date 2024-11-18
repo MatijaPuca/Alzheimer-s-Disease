@@ -33,7 +33,7 @@ class Patient:
         response = -1
 
         try:
-            self.c.execute("INSERT INTO patient ( weight, height, patient_id) VALUES (%s,%s,%s,%s)", tuple(fields))
+            self.c.execute("INSERT INTO patient ( age, weight, height, patient_id, healthcare_id) VALUES (%s,%s,%s,%s,%s)", tuple(fields))
             self.db.commit()
             response = self.c.rowcount
             print(response)
@@ -62,7 +62,7 @@ class Patient:
             print(e)              
         return response
 
-    def gethealthcare(self, healthcare_id):
+    def getHealthcareProvider(self, healthcare_id):
         response = -1
         
         try:
@@ -91,32 +91,13 @@ class Patient:
         #self.c.fetchall()
         return results
     
-        
-    def getAllPatients(self):
-        self.c.execute("SELECT username from user where isPatient = 0")
+       
+    def getAllHealthcareProviders(self):
+        self.c.execute("SELECT username from user where isHealthcare = 1")
         results=self.c.fetchall()
         #self.c.fetchall()
         return results
     
-    def requestHealthcare(self, fields):
-        response = -1
-
-        try:
-            self.c.execute("INSERT INTO requests ( healthcare_id, patient_id) VALUES (%s,%s)", (fields[0], fields[1]))
-            self.db.commit()
-            response = self.c.rowcount
-            print(response)
-            self.c.close()
-            self.db.close()
-            return response
-        except Exception as e:
-            print(e)
-    
-        """
-        Returns Workouts
-        
-        @return List of all Workouts for today
-    """
     def getWorkouts(self, patient_id):
         self.c.execute("""SELECT exercise_name, category, calories FROM workout_logs w 
                        left join exercises e on w.exercise_id = e.exercise_id 
