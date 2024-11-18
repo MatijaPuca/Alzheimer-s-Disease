@@ -31,7 +31,7 @@ class Login(QtWidgets.QDialog, login.Ui_Dialog):
                 patient_view = patient_logic.Patient(user= user) # main screen
                 self.setView(patient_view)
             else:
-                healthcare_view = healthcare_logic.Healthcare(healthcare = user) # main screen
+                healthcare_view = healthcare_logic.Healthcare(healthcareProvider = user) # main screen
                 self.setView(healthcare_view)
         else:
             text = "Failure"
