@@ -129,7 +129,9 @@ class Healthcare:
     def addPatientAssessment(self, fields):
         response = 0
         try:
-            self.c.execute("""INSERT INTO mydb.food_logs(date, food_id, client_id, healthcare_id) VALUES (%s,%s,%s,%s)""", tuple(fields))
+            self.c.execute("""UPDATE patient 
+                              SET Score = %s
+                              WHERE patient_id = %s;""", tuple(fields))
             self.db.commit()
             response = self.c.rowcount
             self.c.close()
@@ -144,10 +146,8 @@ class Healthcare:
         response = -1
         
         try:
-            self.c.execute("""select exercise_name, category, calories from workout_logs natural join exercises as e
-                                where client_id = %s and healthcare_id = %s 
-                                and log_date = (select max(log_date) as dt from workout_logs 
-                                where  client_id = %s and healthcare_id = %s)""",tuple(fields) )
+            self.c.execute("""select questions, answers, from cognitive_test
+                                where patient_id = %s and healthcare_id = %s""",tuple(fields) )
             self.db.commit()
             response = self.c.fetchall()
             self.c.fetchall()
