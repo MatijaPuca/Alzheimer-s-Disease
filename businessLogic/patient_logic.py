@@ -14,11 +14,15 @@ class Patient(QtWidgets.QDialog, patient_main.Ui_Dialog):
         # close the window
         self.logout.clicked.connect(self.logOut)
         self.btnStartCognitiveTest.clicked.connect(self.startCognitiveTest)
-        #self.modifyData.clicked.connect(self.addormodifyData)
+        self.modifyData.clicked.connect(self.addormodifyData)
+        self.btnsaveLifestyleData.clicked.connect(self.saveLifestyleData)
         self.getPatientInfo()
         self.age.setText(str(self.patient[4]))
         self.height.setText(str(self.patient[3]))
         self.weight.setText(str(self.patient[2]))
+        self.lblgeneticsData.setText(str(self.patient[7]))
+        self.result.setText(str(self.patient[1]))
+        self.textLifestyleData.setText(str(self.patient[0]))
 
         database = patient.Patient()
         healthcareProvider = database.getHealthcareProvider(self.patient[6])
@@ -49,6 +53,21 @@ class Patient(QtWidgets.QDialog, patient_main.Ui_Dialog):
     #             text = "Failure"
     #             info = "Unable to update your goals."
     #             icon = QtWidgets.QMessageBox.Critical
+
+    def addormodifyData(self):
+        self.textLifestyleData.setEnabled(True)
+        self.btnsaveLifestyleData.setEnabled(True)
+        self.modifyData.setEnabled(False)
+
+    def saveLifestyleData(self):
+        self.textLifestyleData.setEnabled(False)
+        fields = (self.textLifestyleData.toPlainText(), self.patientId)
+        database = patient.Patient()
+        database.setLifestyleData(fields)
+        database.close()
+        self.modifyData.setEnabled(True)
+        self.btnsaveLifestyleData.setEnabled(False)
+
 
     def setView(self, view):
         navigation.close()

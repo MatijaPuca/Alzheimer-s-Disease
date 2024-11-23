@@ -176,20 +176,20 @@ class Patient:
         @return List of affected database rows
     """
 
-    def log_weight(self, fields):
-        response = -1
-
+    def setLifestyleData(self, fields):
+        response = -1 
         try:
-            self.c.execute("INSERT INTO weight_history (date, weight, patient_id) VALUES (%s,%s, %s)", (fields[0], fields[1], fields[2]))
+            self.c.execute("""UPDATE patient 
+                              SET Information = %s
+                              WHERE patient_id = %s;""", tuple(fields))
             self.db.commit()
-            response = self.c.rowcount
-            print(response)
+            response = self.c.fetchall()
             self.c.close()
             self.db.close()
             return response
         except Exception as e:
-            print(e)
-
+            print(e)              
+        return response
 
     """
         Get all weight history
