@@ -56,9 +56,11 @@ class ManagePatient(QtWidgets.QDialog, manage_patient.Ui_Dialog):
                 print("No cognitive test data found for this patient.")
         
     def assignRiskAssessment(self):
+        fields = (self.txtRiskAssesment.toPlainText(), self.patientId)
         database = healthcare.Healthcare()
-        database.addPatientAssessment([date.today(),  self.patientId, self.healthcareProviderId])
+        database.addPatientAssessment(fields)
         database.close()
+        self.score = self.txtRiskAssesment.toPlainText()
 
 
     def cancel(self):

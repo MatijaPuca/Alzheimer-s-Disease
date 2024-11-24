@@ -74,7 +74,7 @@ class Ui_Dialog(object):
         self.weight.setGeometry(QtCore.QRect(90, 100, 58, 16))
         self.weight.setObjectName("weight")
         self.score = QtWidgets.QLabel(self.groupBox_4)
-        self.score.setGeometry(QtCore.QRect(90, 130, 58, 16))
+        self.score.setGeometry(QtCore.QRect(90, 130, 181, 16))
         self.score.setObjectName("score")
         self.scoreLabel = QtWidgets.QLabel(self.groupBox_4)
         self.scoreLabel.setGeometry(QtCore.QRect(10, 130, 58, 16))
