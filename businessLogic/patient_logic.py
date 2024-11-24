@@ -1,6 +1,7 @@
+import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 import presentation.patient_main as patient_main
-from data import patient as patient
+from data import patient, cognitive_test
 from businessLogic import navigation, login_logic
 
 
@@ -16,6 +17,7 @@ class Patient(QtWidgets.QDialog, patient_main.Ui_Dialog):
         self.btnStartCognitiveTest.clicked.connect(self.startCognitiveTest)
         self.modifyData.clicked.connect(self.addormodifyData)
         self.btnsaveLifestyleData.clicked.connect(self.saveLifestyleData)
+        self.btnSubmitCognitiveTest.clicked.connect(self.submitCognitiveTest)
         self.getPatientInfo()
         self.age.setText(str(self.patient[4]))
         self.height.setText(str(self.patient[3]))
@@ -40,19 +42,17 @@ class Patient(QtWidgets.QDialog, patient_main.Ui_Dialog):
         database.close()
 
     def startCognitiveTest(self):
-    #     goals_text = self.goalsTextBox.toPlainText()
-          database = patient.Patient()
-    #     result = database.update_information([goals_text, self.userAll[0]])
-    #     database.close()
+        self.cognitiveTestBox.setEnabled(True)
+        self.btnStartCognitiveTest.setEnabled(False)
 
-    #     if result > 0:
-    #             text = "Success"
-    #             info = "You have successfully updated your goals."
-    #             icon = QtWidgets.QMessageBox.Information
-    #     else:
-    #             text = "Failure"
-    #             info = "Unable to update your goals."
-    #             icon = QtWidgets.QMessageBox.Critical
+    def submitCognitiveTest(self):
+        test_answer = "|".join([answer.text() for answer in self.answers])
+        date_taken = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        fields = (self.patientId, test_answer, date_taken)
+        database = cognitive_test.Cognitive_Tests()
+        self.cognitive_test = database.add(fields)
+        database.close()
+        self.cognitiveTestBox.setEnabled(False)
 
     def addormodifyData(self):
         self.textLifestyleData.setEnabled(True)

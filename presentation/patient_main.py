@@ -55,9 +55,35 @@ class Ui_Dialog(object):
         self.lblgeneticsData.setGeometry(QtCore.QRect(90, 100, 58, 16))
         self.lblgeneticsData.setObjectName("lblgeneticsData")
         self.cognitiveTestBox = QtWidgets.QGroupBox(Dialog)
-        self.cognitiveTestBox.setGeometry(QtCore.QRect(570, 20, 371, 461))
+        self.cognitiveTestBox.setEnabled(False)
+        self.cognitiveTestBox.setGeometry(QtCore.QRect(560, 20, 371, 461))
         self.cognitiveTestBox.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.cognitiveTestBox.setObjectName("cognitiveTestBox")
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.cognitiveTestBox)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(9, 50, 341, 201))
+        self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.questions = [
+            "What is today's date?",
+            "Name three animals that start with the letter 'C':",
+            "What is 7 x 8?",
+            "Name the current President:",
+            "Count backwards from 20 to 15:"
+        ]
+
+        self.answers = []
+
+        for question in self.questions:
+            label = QtWidgets.QLabel(question)
+            answer = QtWidgets.QLineEdit()
+            self.verticalLayout_2.addWidget(label)
+            self.verticalLayout_2.addWidget(answer)
+            self.answers.append(answer)
+        self.btnSubmitCognitiveTest = QtWidgets.QPushButton(self.cognitiveTestBox)
+        self.btnSubmitCognitiveTest.setGeometry(QtCore.QRect(120, 400, 121, 23))
+        self.btnSubmitCognitiveTest.setObjectName("btnSubmitCognitiveTest")
         self.groupBox_7 = QtWidgets.QGroupBox(Dialog)
         self.groupBox_7.setGeometry(QtCore.QRect(30, 20, 301, 231))
         self.groupBox_7.setObjectName("groupBox_7")
@@ -114,6 +140,7 @@ class Ui_Dialog(object):
         self.geneticsDataLabel.setText(_translate("Dialog", "Genetic\'s Data"))
         self.lblgeneticsData.setText(_translate("Dialog", "N/A"))
         self.cognitiveTestBox.setTitle(_translate("Dialog", "Cognitive test"))
+        self.btnSubmitCognitiveTest.setText(_translate("Dialog", "Submit Cognitive Test"))
         self.groupBox_7.setTitle(_translate("Dialog", "Actions"))
         self.btnStartCognitiveTest.setText(_translate("Dialog", "Start a Cognitive Test"))
         self.modifyData.setText(_translate("Dialog", "Add Lifestyle Data"))

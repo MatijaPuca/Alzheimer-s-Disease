@@ -23,7 +23,7 @@ class ManagePatient(QtWidgets.QDialog, manage_patient.Ui_Dialog):
 
         self.genetics.setText(str(patient[14]))
 
-        #self.populateCognitiveTest()  TO DO: implement cognitive test
+        self.populateCognitiveTest()
 
         self.assignGeneticsButton.clicked.connect(self.assignGeneticsData)
         self.assignRiskAssesmentButton.clicked.connect(self.assignRiskAssessment)
@@ -37,17 +37,23 @@ class ManagePatient(QtWidgets.QDialog, manage_patient.Ui_Dialog):
         self.genetics.setText(self.txtGeneticsData.toPlainText())
 
     def populateCognitiveTest(self):      
-        self.cognitiveTestTable.setRowCount(0)
         database = healthcare.Healthcare()
-        cognitiveTest = database.getPatientCognitiveTest([self.patientId, self.healthcareProviderId, self.patientId, self.healthcareProviderId])
+        cognitiveTest = database.getPatientCognitiveTest([self.patientId])
         database.close()
-        rowPosition = self.cognitiveTestTable.rowCount()
 
-        for question in cognitiveTest:    
-            self.cognitiveTestTable.insertRow(rowPosition)
-            self.cognitiveTestTable.setItem(rowPosition , 0, QtWidgets.QTableWidgetItem(str(question[0])))
-            self.cognitiveTestTable.setItem(rowPosition , 1, QtWidgets.QTableWidgetItem(str(question[1])))
-            rowPosition = rowPosition+1
+        if cognitiveTest and cognitiveTest[0]:
+        # cognitiveTest[0][0] is the first (and only) column of the first row
+            all_answers = cognitiveTest[0][0]
+            if all_answers:
+                # Split by '||' to get individual tests, then by '|' to get individual answers
+                tests = all_answers.split('||')
+                latest_test = tests[0]  # Get the most recent test
+                answers = latest_test.split('|')
+        
+                for row in range(min(len(answers), self.cognitiveTestTable.rowCount())):
+                    self.cognitiveTestTable.setItem(row, 1, QtWidgets.QTableWidgetItem(answers[row].strip()))
+            else:
+                print("No cognitive test data found for this patient.")
         
     def assignRiskAssessment(self):
         database = healthcare.Healthcare()

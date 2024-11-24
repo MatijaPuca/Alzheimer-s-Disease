@@ -183,9 +183,12 @@
    </widget>
   </widget>
   <widget class="QGroupBox" name="cognitiveTestBox">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>570</x>
+     <x>560</x>
      <y>20</y>
      <width>371</width>
      <height>461</height>
@@ -197,6 +200,82 @@
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
    </property>
+   <widget class="QLabel" name="lblq1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>What is today's date?</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblq2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>241</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Name three animals that start with the letter 'C':</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblq3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>What is 7 x 4?</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblq4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Name the current President:</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>149</y>
+      <width>341</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2"/>
+   </widget>
+   <widget class="QPushButton" name="btnSubmitCognitiveTest">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>400</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Submit Cognitive Test</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_7">
    <property name="geometry">

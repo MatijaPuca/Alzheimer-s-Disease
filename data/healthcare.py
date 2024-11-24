@@ -146,8 +146,8 @@ class Healthcare:
         response = -1
         
         try:
-            self.c.execute("""select questions, answers, from cognitive_test
-                                where patient_id = %s and healthcare_id = %s""",tuple(fields) )
+            self.c.execute("""SELECT GROUP_CONCAT(test_answer ORDER BY date_taken DESC SEPARATOR '||') as all_answers
+                              FROM cognitive_tests WHERE patient_id = %s""",tuple(fields) )
             self.db.commit()
             response = self.c.fetchall()
             self.c.fetchall()
