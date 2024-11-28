@@ -98,16 +98,6 @@ class Patient:
         #self.c.fetchall()
         return results
     
-    def getWorkouts(self, patient_id):
-        self.c.execute("""SELECT exercise_name, category, calories FROM workout_logs w 
-                       left join exercises e on w.exercise_id = e.exercise_id 
-                       where log_date = %s and user_id = %s""",
-                       (datetime.date.today(),patient_id))
-        results=self.c.fetchall()
-        #self.c.fetchall()
-        return results
-    
-    
     def close(self):
         self.db.close()
    
@@ -169,13 +159,6 @@ class Patient:
         return self.c.rowcount
     
 
-    """
-        Add weight to weight history.
-        
-        @param fields Data of the customer to be updated ([id, id])
-        @return List of affected database rows
-    """
-
     def setLifestyleData(self, fields):
         response = -1 
         try:
@@ -190,62 +173,3 @@ class Patient:
         except Exception as e:
             print(e)              
         return response
-
-    """
-        Get all weight history
-        @return List of database rows
-    """
-    def get_weight_logs(self, id):
-        self.c.execute("SELECT * FROM weight_history WHERE patient_id=%s", (id,))
-        results=self.c.fetchall()
-        #self.c.fetchall()
-        return results
-
-
-
-    def getpatientWorkouts(self, fields):
-        response = -1
-        
-        try:
-            self.c.execute("""select exercise_name, category, calories from workout_logs natural join exercises as e
-                                where patient_id = %s and healthcare_id = %s 
-                                and log_date = (select max(log_date) as dt from workout_logs 
-                                where  patient_id = %s and healthcare_id = %s)""",tuple(fields) )
-            self.db.commit()
-            response = self.c.fetchall()
-            self.c.fetchall()
-            self.c.close()
-            self.db.close()
-            return response
-        except Exception as e:
-            print(e)              
-        return response
-
-
-    def getpatientNutrition(self, fields):
-        response = -1
-        
-        try:
-            self.c.execute("""select food_name, diet, calories from food_logs natural join foods as e
-                                where patient_id = %s and healthcare_id = %s 
-                                and date = (select max(date) as dt from food_logs 
-                                where  patient_id = %s and healthcare_id = %s)""",tuple(fields) )
-            self.db.commit()
-            response = self.c.fetchall()
-            self.c.fetchall()
-            self.c.close()
-            self.db.close()
-            return response
-        except Exception as e:
-            print(e)              
-        return response
-
-
-#### below needs to be in an if __main__  
-# u = patient()
-# print(u.getAll())
-# t = ["7","1"]
-# u.update_score(t)
-
-# u.add(["Bill", "bill@fatty.com", "password", 44, 333, 60, 54, 444, "Cool", 0, 200])
-# print(u.getWorkouts(1))
